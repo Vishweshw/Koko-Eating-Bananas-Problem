@@ -1,0 +1,54 @@
+Problem Statement: A monkey is given ‘n’ piles of bananas, whereas the 'ith' pile has ‘a[i]’ bananas. An integer ‘h’ is also given, which denotes the time (in hours) for all the bananas to be eaten.Each hour, the monkey chooses a non-empty pile of bananas and eats ‘k’ bananas. If the pile contains less than ‘k’ bananas, then the monkey consumes all the bananas and won’t eat any more bananas in that hour.
+Find the minimum number of bananas ‘k’ to eat per hour so that the monkey can eat all the bananas within ‘h’ hours
+
+
+Example 1:
+Input Format:
+ N = 4, a[] = {7, 15, 6, 3}, h =8
+Result:
+5
+
+
+import java.util.*;
+
+class Main {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        int n = in.nextInt();
+
+        int[] piles = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            piles[i] = in.nextInt();
+        }
+
+        int h = in.nextInt();
+
+        int maxPile = 0;
+        for (int i = 0; i < n; i++) {
+            if (piles[i] > maxPile) {
+                maxPile = piles[i];
+            }
+        }
+
+        int left = 1;
+        int right = maxPile;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            int totalHours = 0;
+            for (int i = 0; i < n; i++) {
+                totalHours += Math.round((float) piles[i] / mid);
+            }
+
+            if (totalHours <= h) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        System.out.println(left);
+    }
+}
